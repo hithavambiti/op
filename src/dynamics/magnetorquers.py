@@ -18,7 +18,7 @@ def magnetorquer_torque(satellite, dt: float):
 
         B_body_frame = satellite.magnetic_field_history[-1]
 
-        m_max = 0.00078  #A-m^2 Calculated from experimental values
+        m_max = 0.2  #A-m^2 Calculated from experimental values
 
         B_dot = (satellite.magnetic_field_history[-1] - satellite.magnetic_field_history[-2]) / dt
 

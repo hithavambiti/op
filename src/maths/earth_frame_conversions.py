@@ -58,7 +58,7 @@ def eci_to_ecef(coordinate_vector_in_eci: np.ndarray,t: Time, phi: float = 0) ->
     :return: coordinates(x,y,z) in ECEF
     """
 
-    R_eci_to_ecef = rot_z(get_theta_gst(t) + phi)
+    R_eci_to_ecef = rot_z(-get_theta_gst(t) - phi)
 
     coordinate_vector_in_ecef = R_eci_to_ecef @ coordinate_vector_in_eci
     return coordinate_vector_in_ecef

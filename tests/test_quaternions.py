@@ -1,7 +1,7 @@
 import numpy as np
 from numpy.testing import assert_allclose
 
-from maths.quaternions import Quaternion
+from maths.quaternion import Quaternion
 
 
 def test_quaternion_norm_and_normalize():

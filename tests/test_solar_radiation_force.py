@@ -2,7 +2,7 @@ import numpy as np
 from types import SimpleNamespace
 
 from constants import EARTH_RADIUS
-from dynamics.solar_radiation_force import (
+from dynamics.solar_radiation_acceleration import (
     solar_radiation_force,
     sun_direction_unit,
 )
