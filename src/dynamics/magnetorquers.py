@@ -3,7 +3,7 @@ from dynamics.earth_magnetic_field import earth_magnetic_field
 from maths.earth_frame_conversions import eci_to_geodetic
 from maths.quaternion import Quaternion
 
-def magnetorquer_torque(satellite, dt: float):
+def magnetorquer_torque(satellite: Satellite, dt: float):
 
     if np.linalg.norm(satellite.angular_velocity) > 0.09 or True:
         # print("sat position ", satellite.position)

@@ -68,6 +68,7 @@ def run_power_analysis(config_path: str = "config.json") -> None:
     config = _load_config(config_path)
     simulation = config["simulation"]
     dt = simulation["dt_seconds"]
+    ct = simulation["control_time"]
     total_time = simulation["time_span_days"] * 90 * 60
     steps = int(total_time / dt)
 
@@ -85,7 +86,7 @@ def run_power_analysis(config_path: str = "config.json") -> None:
 
     for step in tqdm(range(steps), desc="Propagating Orbit"):
         current_time = step * dt
-        satellite.update(current_time, dt)
+        satellite.update(current_time, dt, ct)
         power_profile[step], eclipse_flags[step] = compute_generated_power(
             current_time, satellite, power_config
         )

@@ -1,7 +1,8 @@
 {
   "simulation": {
     "time_span_days": 2,
-    "dt_seconds": 1
+    "dt_seconds": 0.25,
+    "control_time": 1 
   },
   "initial_conditions": {
     "method": "orbital_elements",
@@ -15,14 +16,14 @@
     "velocity_km_s": [0, 3.824, 6.629],
 
     "quaternion": [0.58, 0.58, 0, 0.5720139858],
-    "angular_velocity_rad_s": [0.3, -0.3, 0.3],
+    "angular_velocity_rad_s": [0.34, -0.34, 0.34],
     "start_time": "2025-01-01T00:00:00+00:00"
   },
   "satellite_properties": {
     "inertia_tensor": [
-      [0.04, 0, 0],
-      [0, 0.04, 0],
-      [0, 0, 0.05]
+      [0.033, 0, 0],
+      [0, 0.033, 0],
+      [0, 0, 0.0067]
     ],
     "dimensions_m": [0.1, 0.1, 0.3],
     "mass_kg": 4.0,

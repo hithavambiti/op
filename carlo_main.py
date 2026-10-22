@@ -26,6 +26,7 @@ def run_monte_carlo_simulation(config_path="config.json"):
     # --- Set Simulation Time Parameters from Config ---
     time_span = sim_params["time_span_days"] * 24 * 60 * 60
     dt = sim_params["dt_seconds"]
+    ct = sim_params["control_time"]
     steps = int(time_span / dt)
 
     # --- Load the Angular Velocities from CSV file as a list of vectors ---
@@ -58,7 +59,7 @@ def run_monte_carlo_simulation(config_path="config.json"):
 
         for t in range(steps):
 
-            my_sat.update(t, dt)
+            my_sat.update(t, dt,ct)
             position_list.append(my_sat.position.copy())
             quaternion_list.append(my_sat.quaternion.copy())
 

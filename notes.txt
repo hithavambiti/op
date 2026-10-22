@@ -1,0 +1,2 @@
+the code just takes dt as the control step right now spilit it into 2.
+1 is the control period and 1 is the integration step and the field values we calculate only once per control period. 
