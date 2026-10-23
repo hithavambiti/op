@@ -19,7 +19,6 @@ def _load_config(config_path):
 
 
 def _simulate_orbit(satellite, time_span_seconds, dt , ct):
-    time_simulated = int(time_span_seconds)
     steps = int(time_span_seconds / dt)
     positions = []
     quaternions = []
@@ -29,7 +28,7 @@ def _simulate_orbit(satellite, time_span_seconds, dt , ct):
         f"Running simulation for {time_span_seconds / 86400:.2f} days with a timestep of {dt}s from {satellite.start_time}     ..."
     )
 
-    for step, current_time in enumerate(tqdm(range(time_simulated), desc="Simulating Orbit")):
+    for step, current_time in enumerate(tqdm(range(steps), desc="Simulating Orbit")):
         t_seconds = current_time * dt
         satellite.update(t_seconds, dt, ct)
         positions.append(satellite.position.copy())

@@ -3,13 +3,14 @@ from dynamics.earth_magnetic_field import earth_magnetic_field
 from maths.earth_frame_conversions import eci_to_geodetic
 from maths.quaternion import Quaternion
 
+
 def magnetorquer_torque(satellite: Satellite, dt: float):
 
     if np.linalg.norm(satellite.angular_velocity) > 0.09 or True:
         # print("sat position ", satellite.position)
-        lat, lon, alt_m = eci_to_geodetic(satellite.position, satellite.time)
+        lat, lon, alt_km = eci_to_geodetic(satellite.position, satellite.time)
 
-        alt_km = alt_m / 1000.0
+        alt_km 
 
         # B_eci = earth_magnetic_field(lat, lon, alt_km, satellite.time)
         #
@@ -20,7 +21,9 @@ def magnetorquer_torque(satellite: Satellite, dt: float):
 
         m_max = 0.2  #A-m^2 Calculated from experimental values
 
-        B_dot = (satellite.magnetic_field_history[-1] - satellite.magnetic_field_history[-2]) / dt
+        w_cross = np.cross(np.eye(3) * -1, np.asarray(satellite.angular_velocity))
+
+        B_dot = w_cross @ B_body_frame
 
         # print(satellite.magnetic_field_history[-1])
         # print(B_body_frame)
@@ -34,7 +37,7 @@ def magnetorquer_torque(satellite: Satellite, dt: float):
             print("Bdot negligible")
             return np.zeros(3)
 
-        m = -m_max * (B_dot / B_dot_norm)
+        m = - m_max * (B_dot / B_dot_norm)
 
         Torque = np.cross(m, B_body_frame)
         satellite.prev_Torque = Torque

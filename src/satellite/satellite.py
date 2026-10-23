@@ -71,8 +71,7 @@ class Satellite:
         self.prev_Torque = np.zeros(3)
     def update(self, t, dt, ct):
 
-        lat, lon, alt_m = eci_to_geodetic(self.position, self.time)
-        alt_km = alt_m / 1000
+        lat, lon, alt_km = eci_to_geodetic(self.position, self.time)
 
         B_eci = earth_magnetic_field(lat, lon, alt_km, self.time)
         B_body = self.QuaternionConj.rotate_vector(B_eci)
@@ -86,7 +85,6 @@ class Satellite:
         self.time += dt * u.s
 
         # print(np.linalg.norm(self.angular_velocity))
-
     @property
     def position(self):
         """
@@ -122,3 +120,4 @@ class Satellite:
     @property
     def angular_velocity(self):
         return self.state[10:13]
+    

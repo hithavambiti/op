@@ -1,5 +1,13 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import json
+
+from pytest import Config 
+
+with open("config.json","r") as f:
+    config = json.load(f)
+dt = config['simulation']['dt_seconds']
+
 
 with open('omega_output.csv', 'r') as f:
     lines = f.read().splitlines()
@@ -19,7 +27,7 @@ np.savetxt('norms.csv', np.column_stack((time, norms)), delimiter=',', header='t
 
 # Plot
 plt.figure(figsize=(10, 5))
-plt.plot(time, norms, linewidth=1.5)
+plt.plot(time*dt, norms, linewidth=1.5)
 plt.xlabel('Time (index)')
 plt.ylabel('Norm')
 plt.title('Vector Norm over Time')
