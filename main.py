@@ -28,7 +28,13 @@ def _simulate_orbit(satellite, time_span_seconds, dt , ct):
         f"Running simulation for {time_span_seconds / 86400:.2f} days with a timestep of {dt}s from {satellite.start_time}     ..."
     )
 
+    count = 0
     for step, current_time in enumerate(tqdm(range(steps), desc="Simulating Orbit")):
+        if np.linalg.norm(angular_velocities[-3:-1]) < 0.01:
+            count = count + 1 
+        if count > 10:
+            print("The sat has probably detumbled")
+            break
         t_seconds = current_time * dt
         satellite.update(t_seconds, dt, ct)
         positions.append(satellite.position.copy())
@@ -36,7 +42,7 @@ def _simulate_orbit(satellite, time_span_seconds, dt , ct):
         angular_velocities.append(satellite.angular_velocity.copy())
 
     print("  Simulation 100% complete.")
-    return np.array(positions), np.array(quaternions),np.array(angular_velocities)
+    return np.array(positions), np.array(quaternions),np.array(angular_velocities),(t_seconds/60*60)
 
 
 def run_simulation(config_path="config.json"):
@@ -59,7 +65,7 @@ def run_simulation(config_path="config.json"):
     dt = sim_params["dt_seconds"]
     ct = sim_params["control_time"]
 
-    positions, quaternions, omega = _simulate_orbit(satellite, time_span_seconds, dt , ct)
+    positions, quaternions, omega, total_time = _simulate_orbit(satellite, time_span_seconds, dt , ct)
 
     analysis_params = config.get("analysis", {})
     ground_station_params = config.get("ground_station")
@@ -71,6 +77,7 @@ def run_simulation(config_path="config.json"):
     print(np.linalg.norm(omega[0]))
     print(omega[-1])
     print(np.linalg.norm(omega[-1]))
+    print(f"Detumble time: {total_time / 3600:.2f} hours")
 
     if analysis_params.get("run_ground_station_analysis"):
         if ground_station_params:
