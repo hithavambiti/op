@@ -19,7 +19,10 @@ def magnetorquer_torque(satellite: Satellite, dt: float):
 
         B_body_frame = satellite.magnetic_field_history[-1]
 
-        m_max = 0.2  #A-m^2 Calculated from experimental values
+        k = 3e-5
+        m_max = [0.2 , 0.2 , 0.2]
+        m_min = [-0.2 , -0.2 , -0.2]
+        #A-m^2 Calculated from experimental values
 
         w_cross = np.cross(np.eye(3) * -1, np.asarray(satellite.angular_velocity))
 
@@ -31,15 +34,15 @@ def magnetorquer_torque(satellite: Satellite, dt: float):
         # print(B_dot)
 
 
-        if B_dot_norm < 1e-10 or dt == 0.0:
+        if B_dot_norm < 1e-18 or dt == 0.0:
 
 
-            print("Bdot negligible")
+            print("\n Bdot is negligible")
             return np.zeros(3)
 
-        m = - m_max * (B_dot / B_dot_norm)
-
-        Torque = np.cross(m, B_body_frame)
+        m = -k*B_dot / (B_dot_norm**2) 
+        m_t = np.clip(m,m_min,m_max)
+        Torque = np.cross(m_t, B_body_frame)
         satellite.prev_Torque = Torque
 
         satellite.time_list.append(satellite.time)
